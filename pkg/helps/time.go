@@ -15,12 +15,12 @@ func init() {
 
 func FormatTime(ts int64) string {
 	t := time.Unix(ts, 0)
-	return t.Format("2006-01-02 15:04:05")
+	return t.Format(time.DateTime)
 }
 
 func FormatDate(ts int64) string {
 	t := time.Unix(ts, 0)
-	return t.Format("2006-01-02")
+	return t.Format(time.DateOnly)
 }
 
 func StrToTime(str string) int64 {
