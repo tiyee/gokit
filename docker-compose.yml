@@ -1,0 +1,16 @@
+version: '3'
+services:
+  gokit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:  /app/gokit
+    restart: on-failure
+    ports:
+      - "3003:3003"
+    expose:
+      - "3003"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /data/logs/gokit/:/app/logs/
