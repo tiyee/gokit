@@ -1,4 +1,4 @@
-# GoKid
+# GoKit
 
 一套go的项目模板，支持docker,尽可能的减少依赖
 

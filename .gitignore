@@ -19,3 +19,4 @@
 /.vscode
 go.sum
 **/.DS_Store
+!.gitkeep
