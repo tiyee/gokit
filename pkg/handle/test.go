@@ -1,14 +1,15 @@
 package handle
 
 import (
-	"github.com/tiyee/gokit/pkg/component"
+	"github.com/tiyee/gokit/pkg/component/log"
 	"github.com/tiyee/gokit/pkg/engine"
 	"github.com/tiyee/gokit/pkg/repository/class_repo"
 )
 
 func Test(c *engine.Context) {
-	component.Logger.Info("test")
-	component.Logger.Error("error")
+	log.Info("test")
+	log.Error("error")
+
 	//if time.Now().Unix() > 100000 {
 	//	test(c)
 	//	return

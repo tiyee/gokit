@@ -1,4 +1,4 @@
-package component
+package log
 
 import (
 	"fmt"
@@ -6,12 +6,19 @@ import (
 	logcore "go.uber.org/zap/zapcore"
 )
 
-var Logger *log.Logger
+type (
+	Field         = logcore.Field
+	Logger        = log.Logger
+	Option        = log.Option
+	SugaredLogger = log.SugaredLogger
+)
+
+var logger *log.Logger
 
 func InitLogger() {
-	Logger = GetLogger([]string{"./logs/info.log"}, []string{"./logs/error.log"})
+	logger = GetLogger([]string{"./logs/info.log"}, []string{"./logs/error.log"})
 	defer func() {
-		if err := Logger.Sync(); err != nil {
+		if err := Sync(); err != nil {
 			fmt.Println(err.Error())
 		}
 	}()
@@ -45,5 +52,6 @@ func GetLogger(outputPath, errorPath []string) *log.Logger {
 		OutputPaths:       outputPath,
 		ErrorOutputPaths:  errorPath,
 	}
+
 	return log.Must(config.Build())
 }

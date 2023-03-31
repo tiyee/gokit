@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/tiyee/gokit/pkg"
 	"github.com/tiyee/gokit/pkg/component"
+	"github.com/tiyee/gokit/pkg/component/log"
 	"github.com/tiyee/gokit/pkg/engine"
 )
 
@@ -11,7 +12,7 @@ func main() {
 	e := engine.New()
 	pkg.LoadRouter(e)
 
-	component.InitLogger()
+	log.InitLogger()
 	if err := component.InitMysql(); err != nil {
 		fmt.Println("init mysql err:", err.Error())
 		panic(err)

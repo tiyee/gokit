@@ -3,8 +3,8 @@ package engine
 import (
 	"fmt"
 	"github.com/tiyee/gokit/pkg/component"
+	"github.com/tiyee/gokit/pkg/component/log"
 	"github.com/valyala/fasthttp"
-	"go.uber.org/zap"
 	"strings"
 	"sync"
 )
@@ -59,7 +59,7 @@ func (e *Engine) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 		defer func() {
 			if err := recover(); err != nil {
 				fmt.Println(err)
-				component.Logger.Error("recover", zap.String("error", fmt.Sprintf("%v", err)))
+				log.Error("recover", log.String("error", fmt.Sprintf("%v", err)))
 				ctx.Error("内部错误", 500)
 			}
 		}()
