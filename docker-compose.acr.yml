@@ -2,9 +2,8 @@ version: '3'
 
 services:
   gokit:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: registry-vpc.cn-beijing.aliyuncs.com/tiyee/gokit:latest
+    container_name: gokit
     command:  /app/gokit
     restart: on-failure
     ports:
@@ -14,4 +13,4 @@ services:
     environment:
       - TZ=Asia/Shanghai
     volumes:
-      - /data/logs/gokit/:/app/logs/
+      - /data/logs/gokit/:/app/logs/ 

@@ -29,7 +29,7 @@ type ORM[T ITable] struct {
 	Record T
 }
 
-func NewORM[T ITable](data T) *ORM[T] {
+func New[T ITable](data T) *ORM[T] {
 	return &ORM[T]{
 		Record: data,
 	}

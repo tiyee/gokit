@@ -5,17 +5,17 @@ import (
 	"strings"
 )
 
-type HookPosition int
+type HookPos int
 
-const PosAhead HookPosition = 1
-const PosBehind HookPosition = 2
+const PosAhead HookPos = 1
+const PosBehind HookPos = 2
 
 type IMatcher interface {
 	Match(method, path string) bool
 }
 type Hook struct {
 	matcher     IMatcher
-	Pos         HookPosition
+	Pos         HookPos
 	HandlerFunc HandlerFunc
 }
 
@@ -75,24 +75,10 @@ func (p *Pre) Match(method, path string) bool {
 	}
 	return strings.HasPrefix(path, p.prefix)
 }
-func (e *Engine) Use(pos HookPosition, matcher IMatcher, fn HandlerFunc) {
+func (e *Engine) Use(pos HookPos, matcher IMatcher, fn HandlerFunc) {
 	e.hooks = append(e.hooks, Hook{
 		matcher:     matcher,
 		Pos:         pos,
 		HandlerFunc: fn,
 	})
-}
-func (e *Engine) dispatch() {
-	for _, route := range e.routes {
-		for _, hook := range e.hooks {
-			if hook.matcher.Match(route.Method, route.Path) {
-				if hook.Pos == PosAhead {
-					route.BeforeHooks = append(route.BeforeHooks, hook.HandlerFunc)
-				}
-				if hook.Pos == PosBehind {
-					route.AfterHooks = append(route.AfterHooks, hook.HandlerFunc)
-				}
-			}
-		}
-	}
 }
