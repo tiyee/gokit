@@ -9,6 +9,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"github.com/tiyee/gokit/pkg/consts"
 	"hash"
 	"io"
 	"io/ioutil"
@@ -18,11 +19,11 @@ import (
 	"time"
 )
 
-const BUCKET = "gokit"
-const HOST = "oss-cn-beijing-internal.aliyuncs.com"
-const AccessKeyId = "LTAI4GDRxbsnpckfmKhLYwoJ"
-const KeySecret = "PFbioyax389OMFMcWTnKwA0WWaWDlO"
-const BaseUrl = "https://img.tiyee.cn"
+const BUCKET = consts.BUCKET
+const HOST = consts.HOST
+const AccessKeyId = consts.AccessKeyId
+const KeySecret = consts.KeySecret
+const BaseUrl = consts.BaseUrl
 
 type ErrorXml struct {
 	Error             xml.Name `xml:"Error"`
