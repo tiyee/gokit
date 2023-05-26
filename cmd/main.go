@@ -1,26 +1,31 @@
 package main
 
 import (
-	"fmt"
-	"github.com/tiyee/gokit/pkg"
 	"github.com/tiyee/gokit/pkg/component"
 	"github.com/tiyee/gokit/pkg/component/log"
+	"github.com/tiyee/gokit/pkg/component/redis"
 	"github.com/tiyee/gokit/pkg/engine"
+	"github.com/tiyee/gokit/pkg/router"
 )
 
 func main() {
 	e := engine.New()
-	pkg.LoadRouter(e)
-
 	log.InitLogger()
 	if err := component.InitMysql(); err != nil {
-		fmt.Println("init mysql err:", err.Error())
+		log.Error("init mysql error", log.String("error", err.Error()))
 		panic(err)
-		//os.Exit(1)
-
+	} else {
+		log.Info("init mysql success")
 	}
+	if err := redis.InitRedis(); err != nil {
+		log.Error("init redis error", log.String("error", err.Error()))
+		panic(err)
+	} else {
+		log.Info("init redis success")
+	}
+	router.LoadRouter(e)
 	if err := e.Run(); err != nil {
-		fmt.Println(err.Error())
+		panic(err)
 	}
 
 }

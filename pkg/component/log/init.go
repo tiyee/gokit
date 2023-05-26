@@ -16,12 +16,13 @@ type (
 var logger *log.Logger
 
 func InitLogger() {
-	logger = GetLogger([]string{"./logs/info.log"}, []string{"./logs/error.log"})
+	logger = GetLogger([]string{"./logs/output.log"}, []string{"./logs/error.log"})
 	defer func() {
-		if err := Sync(); err != nil {
+		if err := logger.Sync(); err != nil {
 			fmt.Println(err.Error())
 		}
 	}()
+	logger.Info("log initialize")
 }
 func GetLogger(outputPath, errorPath []string) *log.Logger {
 	encoderConfig := logcore.EncoderConfig{
@@ -43,12 +44,12 @@ func GetLogger(outputPath, errorPath []string) *log.Logger {
 
 	config := log.Config{
 		Level:             atom,
-		Development:       true,
-		DisableStacktrace: false,
-		DisableCaller:     false,
+		Development:       false,
+		DisableStacktrace: true,
+		DisableCaller:     true,
 		Encoding:          "json",
 		EncoderConfig:     encoderConfig,
-		InitialFields:     map[string]interface{}{"service": "notice"},
+		InitialFields:     map[string]interface{}{},
 		OutputPaths:       outputPath,
 		ErrorOutputPaths:  errorPath,
 	}

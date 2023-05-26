@@ -1,4 +1,4 @@
 package consts
 
-const RsaKey = "abcabc12"
-const RsaIV = "iviviv12"
+const RsaKey = "asfdss"
+const RsaIV = "ivivssf"

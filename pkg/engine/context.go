@@ -1,39 +1,88 @@
 package engine
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"github.com/tiyee/gokit/pkg/component"
 	"github.com/tiyee/gokit/pkg/consts"
 	"github.com/tiyee/gokit/pkg/helps"
-	"github.com/valyala/fasthttp"
+	"github.com/tiyee/gokit/pkg/schema"
+	"github.com/tiyee/gokit/pkg/vo"
 	"math"
+	"net/http"
+	"net/url"
+	"strconv"
 	"time"
 )
 
+type Context struct {
+	ctx         context.Context
+	w           http.ResponseWriter
+	r           *http.Request
+	handlers    []HandlerFunc
+	index       int8
+	userData    map[string]any
+	queryParsed bool
+	queryMap    url.Values
+}
+
 const abortIndex int8 = math.MaxInt8 >> 1
 
-type JsonRet struct {
-	Error   int         `json:"error"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
-}
-type JsonRetWithPagination struct {
-	Error   int         `json:"error"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
-	Pages   int64       `json:"pages"`
-}
-type Context struct {
-	*fasthttp.RequestCtx
-	handlers []HandlerFunc
-	index    int8
+func NewContext(w http.ResponseWriter, r *http.Request) *Context {
+	return &Context{w: w, r: r}
 }
 
-func (c *Context) reset(ctx *fasthttp.RequestCtx) {
-	c.RequestCtx = ctx
-	c.handlers = c.handlers[:0]
-	c.index = 0
+func (c *Context) Request() *http.Request {
+
+	return c.r
+}
+func (c *Context) Response() http.ResponseWriter {
+	return c.w
+}
+func (c *Context) Ctx() context.Context {
+	return c.ctx
+}
+func (c *Context) JSONArgs(v schema.ISchema) error {
+	if err := helps.JSONArgs(c.Request().Body, v); err != nil {
+		return err
+	}
+	v.Hook()
+	return nil
+
+}
+func (c *Context) String(code int, text string) {
+	c.Response().Header().Set("Content-Type", "text/html; charset=utf-8")
+	c.Response().WriteHeader(code)
+	c.Response().Write([]byte(text))
+
+}
+func (c *Context) AjaxJson(code int, message string, data any) {
+	ret := vo.Base{
+		Error:   code,
+		Message: message,
+		Msg:     message,
+		Data:    data,
+	}
+	c.Response().Header().Set("Content-Type", "application/json; charset=utf-8")
+	c.Response().WriteHeader(200)
+
+	if bs, err := json.Marshal(ret); err == nil {
+		c.Response().Write(bs)
+	}
+
+}
+func (c *Context) AjaxError(code int, message string, data any) {
+	c.AjaxJson(code, message, data)
+}
+func (c *Context) AjaxSuccess(message string, data any) {
+	c.AjaxJson(0, message, data)
+}
+func (c *Context) JSON(httpCode int, data any) {
+	c.w.WriteHeader(httpCode)
+	if bs, err := json.Marshal(data); err == nil {
+		c.Response().Write(bs)
+	}
 }
 func (c *Context) Next() {
 	c.index++
@@ -47,36 +96,28 @@ func (c *Context) Next() {
 func (c *Context) IsAborted() bool {
 	return c.index >= abortIndex
 }
-
-// Abort prevents pending handlers from being called. Note that this will not stop the current handler.
-// Let's say you have an authorization middleware that validates that the current request is authorized.
-// If the authorization fails (ex: the password does not match), call Abort to ensure the remaining handlers
-// for this request are not called.
 func (c *Context) Abort() {
 	c.index = abortIndex
 }
-func (c *Context) GetPostArgsIntZero(key string) int64 {
-
-	return c.GetPostArgsInt(key, 0)
+func (c *Context) reset(w http.ResponseWriter, r *http.Request) {
+	c.r = r
+	c.w = w
+	c.handlers = c.handlers[:0]
+	c.index = 0
+	c.queryParsed = false
+	c.ctx = context.Background()
 }
-func (c *Context) GetQueryArgsIntZero(key string) int64 {
-
-	return c.GetQueryArgsInt(key, 0)
+func (c *Context) Error(message string, code int) {
+	c.w.WriteHeader(code)
+	c.w.Write([]byte(message))
 }
-func (c *Context) GetPostArgsInt(key string, defaultValue int64) int64 {
-	bs := c.PostArgs().Peek(key)
-	return helps.BytesToInt64(bs, defaultValue)
+func (c *Context) NotFound() {
+	c.Error("not found", 404)
 }
-func (c *Context) GetQueryArgsInt(key string, defaultValue int64) int64 {
-	bs := c.QueryArgs().Peek(key)
-	return helps.BytesToInt64(bs, defaultValue)
-}
-func (c *Context) Uid() int64 {
-	if jwt, err := c.JWT(); err == nil {
-		return jwt.Uid
-	} else {
-		return 0
-	}
+func (c *Context) Redirect(code int, url string) {
+	http.Redirect(c.w, c.r, url, code)
+	c.Abort()
+	return
 }
 func (c *Context) JWT() (*component.JWT, error) {
 	i := c.UserValue("jwt")
@@ -89,55 +130,74 @@ func (c *Context) JWT() (*component.JWT, error) {
 		return nil, errors.New("jwt interrupt error")
 	}
 }
-func (c *Context) AjaxError(msg string, errorCode int, data interface{}) {
-	ret := JsonRet{
-		Message: msg,
-		Error:   errorCode,
-		Data:    data,
-	}
-	if data, err := json.Marshal(ret); err == nil {
-		c.Success("application/json", data)
-	} else {
-		str := `{"message":"error","error":1}`
-		c.Success("application/json", []byte(str))
-	}
+func (c *Context) SetUserValue(key string, value interface{}) {
+	c.userData[key] = value
 }
-func (c *Context) AjaxSuccessWithPagination(msg string, pages int64, data interface{}) {
-	ret := JsonRetWithPagination{
-		Message: msg,
-		Error:   0,
-		Data:    data,
-		Pages:   pages,
-	}
-	if data, err := json.Marshal(ret); err == nil {
-		c.Success("application/json", data)
+func (c *Context) UserValue(key string) any {
+	if v, exist := c.userData[key]; exist {
+		return v
 	} else {
-		str := `{"message":"error","error":1}`
-		c.Success("application/json", []byte(str))
-	}
-}
-func (c *Context) AjaxSuccess(msg string, data interface{}) {
-	ret := JsonRet{
-		Message: msg,
-		Error:   0,
-		Data:    data,
-	}
-	if data, err := json.Marshal(ret); err == nil {
-		c.Success("application/json", data)
-	} else {
-		str := `{"message":"format err","error":1}`
-		c.Success("application/json", []byte(str))
+		return nil
 	}
 }
 func (c *Context) SetCookie(key string, value []byte, expired time.Duration) {
-	cookie := &fasthttp.Cookie{}
-	cookie.SetDomain(consts.Domain)
-	cookie.SetHTTPOnly(true)
-	cookie.SetPath("/")
-	cookie.SetKey(key)
-	cookie.SetExpire(time.Now().Add(expired))
-	cookie.SetSecure(true)
+	cookie := &http.Cookie{
+		Domain:   consts.Domain,
+		HttpOnly: true,
+		Path:     "/",
+		Name:     key,
+		Expires:  time.Now().Add(expired),
+		Secure:   true,
+		Value:    string(value),
+	}
+	http.SetCookie(c.w, cookie)
+}
+func (c *Context) Cookie(key string) string {
+	if cookie, err := c.Request().Cookie(key); err == nil {
+		return cookie.Value
+	} else {
+		return ""
+	}
+}
+func (c *Context) initQueryCache() {
+	if !c.queryParsed {
+		c.queryMap = c.r.URL.Query()
+		c.queryParsed = true
+	}
+}
 
-	cookie.SetValueBytes(value)
-	c.Response.Header.SetCookie(cookie)
+func (c *Context) Query(key string) string {
+	c.initQueryCache()
+	return c.queryMap.Get(key)
+}
+func (c *Context) QueryInt(key string, missing int) int {
+	c.initQueryCache()
+	s := c.queryMap.Get(key)
+	if len(s) == 0 {
+		return missing
+	}
+	if n, err := strconv.ParseInt(s, 10, 32); err == nil {
+		return int(n)
+	}
+	return missing
+}
+func (c *Context) QueryArray(key string) []string {
+	c.initQueryCache()
+	if array, exist := c.queryMap[key]; exist {
+		return array
+	} else {
+		return []string{}
+	}
+}
+func (c *Context) QueryMap() url.Values {
+	c.initQueryCache()
+	return c.queryMap
+
+}
+func (c *Context) PostForm(key string) string {
+	return c.r.PostFormValue(key)
+}
+func (c *Context) AbortWithStatus(code int) {
+	c.w.WriteHeader(code)
+	c.Abort()
 }
