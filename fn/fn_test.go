@@ -2,8 +2,8 @@ package fn_test
 
 import (
 	"errors"
-	"github.com/tiyee/gokit/assert"
 	"github.com/tiyee/gokit/fn"
+	"github.com/tiyee/gokit/internal/assert"
 	"testing"
 )
 

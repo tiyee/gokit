@@ -2,7 +2,7 @@ package cryptor
 
 import (
 	"fmt"
-	"github.com/tiyee/gokit/assert"
+	"github.com/tiyee/gokit/internal/assert"
 	"os"
 	"testing"
 )
