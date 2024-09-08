@@ -1,3 +1,4 @@
+// Package mathlib  implements some functions for math calculation.
 package mathlib
 
 import (
@@ -9,6 +10,7 @@ type Numeric interface {
 	constraints.Integer | constraints.Float
 }
 
+// Abs get absolute value of given value
 func Abs[T Numeric](n T) T {
 	if n < 0 {
 		return -n

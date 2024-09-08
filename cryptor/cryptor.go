@@ -1,3 +1,4 @@
+// Package cryptor  is for data encryption and decryption.
 package cryptor
 
 import (
