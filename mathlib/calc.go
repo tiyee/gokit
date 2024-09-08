@@ -1,7 +1,7 @@
 package mathlib
 
 import (
-	"github.com/tiyee/gokit/internal/constraints"
+	"github.com/tiyee/gokit/constraints"
 	"math"
 )
 
