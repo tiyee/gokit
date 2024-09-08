@@ -42,7 +42,7 @@ type TestTypes struct {
 var prolog = []byte(`
 package constrainttest
 
-import "github.com/tiyee/gokit/internal/constraints"
+import "github.com/tiyee/gokit/constraints"
 
 type (
 	testSigned[T constraints.Signed]     struct{ f T }

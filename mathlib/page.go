@@ -1,6 +1,6 @@
 package mathlib
 
-import "github.com/tiyee/gokit/internal/constraints"
+import "github.com/tiyee/gokit/constraints"
 
 func SafePage[T constraints.Integer](i T) T {
 	var j T = 1
