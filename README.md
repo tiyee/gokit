@@ -1,7 +1,7 @@
 # GoKit
 
 ![Go version](https://img.shields.io/github/go-mod/go-version/tiyee/gokit?style=flat-square)
-[![Release](https://img.shields.io/badge/release-2.3.2-green.svg)](https://github.com/tiyee/gokit/releases)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/tiyee/gokit)](https://github.com/tiyee/gokit)
 [![GitHub Release (latest SemVer)](https://img.shields.io/github/release/tiyee/gokit)](https://github.com/tiyee/gokit)
 [![GoDoc](https://godoc.org/github.com/tiyee/gokit?status.svg)](https://pkg.go.dev/github.com/tiyee/gokit)
 [![Go Report Card](https://goreportcard.com/badge/github.com/tiyee/gokit)](https://goreportcard.com/report/github.com/tiyee/gokit)
