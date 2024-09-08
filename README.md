@@ -5,7 +5,7 @@
 [![GoDoc](https://godoc.org/github.com/tiyee/gokit?status.svg)](https://pkg.go.dev/github.com/tiyee/gokit)
 [![Go Report Card](https://goreportcard.com/badge/github.com/tiyee/gokit)](https://goreportcard.com/report/github.com/tiyee/gokit)
 [![test](https://github.com/tiyee/gokit/actions/workflows/codecov.yml/badge.svg?branch=master&event=push)](https://github.com/tiyee/gokit/actions/workflows/codecov.yml)
-[![codecov](https://codecov.io/gh/tiyee/gokit/branch/master/graph/badge.svg?token=FC48T1F078)](https://codecov.io/gh/tiyee/gokit)
+[![codecov](https://codecov.io/github/tiyee/gokit/graph/badge.svg?token=9HT6SVFKJH)](https://codecov.io/github/tiyee/gokit)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tiyee/gokit/blob/main/LICENSE)
 
 ## Install
