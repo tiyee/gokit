@@ -1,6 +1,6 @@
 package mathlib
 
-import "golang.org/x/exp/constraints"
+import "github.com/tiyee/gokit/internal/constraints"
 
 func Max[T constraints.Ordered](i T, n ...T) T {
 	for _, nn := range n {

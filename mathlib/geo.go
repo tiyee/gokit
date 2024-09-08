@@ -1,7 +1,7 @@
 package mathlib
 
 import (
-	"golang.org/x/exp/constraints"
+	"github.com/tiyee/gokit/internal/constraints"
 	"math"
 )
 
