@@ -28,5 +28,9 @@ jobs:
       run: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
     - name: Run govet
       run: go vet -v ./...
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
     - name: Upload coverage to Codecov
       run: bash <(curl -s https://codecov.io/bash)
