@@ -5,11 +5,11 @@ name: Go test
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "1.0" ]
+  #push:
+    #branches: [ "1.0" ]
   pull_request:
     branches: [ "master" ]
-  release:
+  #release:
 
 jobs:
 
