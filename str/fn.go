@@ -17,7 +17,6 @@ var DefaultTrimChars = string([]byte{
 
 // Trim strips whitespace (or other characters) from the beginning and end of a string.
 // The optional parameter `characterMask` specifies the additional stripped characters.
-// Play: https://go.dev/play/p/Y0ilP0NRV3j
 func Trim(str string, characterMask ...string) string {
 	trimChars := DefaultTrimChars
 
@@ -26,4 +25,17 @@ func Trim(str string, characterMask ...string) string {
 	}
 
 	return strings.Trim(str, trimChars)
+}
+
+// Reverse returns string whose char order is reversed to the given string.
+func Reverse(s string) string {
+	l := len(s)
+	if l < 2 {
+		return s
+	}
+	r := []rune(s)
+	for i, j := 0, l-1; i < j; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return string(r)
 }
