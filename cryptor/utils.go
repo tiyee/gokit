@@ -2,15 +2,11 @@ package cryptor
 
 import (
 	"bytes"
+	"github.com/tiyee/gokit/slice"
 )
 
 func isOneOf[T comparable](want T, arr []T) bool {
-	for _, v := range arr {
-		if v == want {
-			return true
-		}
-	}
-	return false
+	return slice.OneOf(want, arr)
 }
 func generateAesKey(key []byte, size int) []byte {
 	genKey := make([]byte, size)

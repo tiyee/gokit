@@ -1,4 +1,3 @@
-// Copyright 2021 dudaodong@gmail.com. All rights reserved.
 // Use of this source code is governed by MIT license
 
 // Package assert is for internal use.

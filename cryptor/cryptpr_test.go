@@ -1,14 +1,12 @@
 package cryptor
 
 import (
-	"fmt"
 	"github.com/tiyee/gokit/internal/assert"
 	"os"
 	"testing"
 )
 
 func TestE(t *testing.T) {
-	fmt.Println("test error")
 	as := assert.NewAssert(t, "Testerror")
 	assert.Equal(as, "123", "123")
 

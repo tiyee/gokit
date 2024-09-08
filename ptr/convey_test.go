@@ -11,4 +11,5 @@ func TestToValue(t *testing.T) {
 	a := 1
 	b := &a
 	assert.Equal(as, a, ptr.ToValue(b, 1))
+	assert.Equal(as, 1, ptr.ToValue(nil, 1))
 }
