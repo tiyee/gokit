@@ -1,7 +1,7 @@
 package str_test
 
 import (
-	"github.com/tiyee/gokit/assert"
+	"github.com/tiyee/gokit/internal/assert"
 	"github.com/tiyee/gokit/str"
 	"testing"
 )

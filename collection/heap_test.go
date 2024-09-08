@@ -1,8 +1,8 @@
 package collection_test
 
 import (
-	"github.com/tiyee/gokit/assert"
 	"github.com/tiyee/gokit/collection"
+	"github.com/tiyee/gokit/internal/assert"
 	"sort"
 	"testing"
 )

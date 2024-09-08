@@ -1,8 +1,8 @@
 package hashlib_test
 
 import (
-	"github.com/tiyee/gokit/assert"
 	"github.com/tiyee/gokit/hashlib"
+	"github.com/tiyee/gokit/internal/assert"
 	"testing"
 )
 
