@@ -1,9 +1,8 @@
-package str
+package strlib
 
 import "strings"
 
 // DefaultTrimChars are the characters which are stripped by Trim* functions in default.
-// Deprecated:
 var DefaultTrimChars = string([]byte{
 	'\t', // Tab.
 	'\v', // Vertical tab.
@@ -18,7 +17,6 @@ var DefaultTrimChars = string([]byte{
 
 // Trim strips whitespace (or other characters) from the beginning and end of a string.
 // The optional parameter `characterMask` specifies the additional stripped characters.
-// Deprecated:
 func Trim(str string, characterMask ...string) string {
 	trimChars := DefaultTrimChars
 
@@ -30,7 +28,6 @@ func Trim(str string, characterMask ...string) string {
 }
 
 // Reverse returns string whose char order is reversed to the given string.
-// Deprecated:
 func Reverse(s string) string {
 	l := len(s)
 	if l < 2 {

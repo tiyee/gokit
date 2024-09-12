@@ -5,6 +5,7 @@ package assert
 
 import (
 	"cmp"
+	"crypto/subtle"
 	"fmt"
 	"reflect"
 	"runtime"
@@ -39,6 +40,13 @@ func NewAssert(t *testing.T, caseName string) *Assert {
 // Equal check if expected is equal with actual
 func Equal[T comparable](a IAssert, expected, actual T) {
 	if expected != actual {
+		makeTestFailed(a.T(), a.CaseName(), expected, actual)
+	}
+}
+
+// EqualBytes  check if expected is equal with actual
+func EqualBytes(a IAssert, expected, actual []byte) {
+	if subtle.ConstantTimeCompare(expected, actual) == 0 {
 		makeTestFailed(a.T(), a.CaseName(), expected, actual)
 	}
 }

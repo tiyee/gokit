@@ -1,8 +1,7 @@
-package ptr
+package ptrlib
 
 import "github.com/tiyee/gokit/constraints"
 
-// Deprecated:
 func ToValue[T constraints.Ordered](v *T, missing T) T {
 	if v == nil {
 		return missing
