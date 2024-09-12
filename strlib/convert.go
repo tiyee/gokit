@@ -1,22 +1,17 @@
-// Deprecated: This package is deprecated.Be instead of strlib
-package str
+package strlib
 
-// Deprecated: This package is deprecated.Be instead of strlib
 import (
 	"github.com/tiyee/gokit/constraints"
 	"strconv"
 	"strings"
 )
 
-// Deprecated:
 func StringOrEmpty(s *string) string {
 	if s == nil {
 		return ""
 	}
 	return *s
 }
-
-// Deprecated:
 func ToInteger[T constraints.Integer](s string, missing T) T {
 	if s == "" {
 		return missing
@@ -27,8 +22,6 @@ func ToInteger[T constraints.Integer](s string, missing T) T {
 		return missing
 	}
 }
-
-// Deprecated:
 func ToFloat[T constraints.Float](s string, missing T) T {
 	if s == "" {
 		return missing
@@ -39,8 +32,6 @@ func ToFloat[T constraints.Float](s string, missing T) T {
 		return missing
 	}
 }
-
-// Deprecated:
 func ToBool(s string, fn ...func(s string) bool) bool {
 	if s == "" {
 		return false

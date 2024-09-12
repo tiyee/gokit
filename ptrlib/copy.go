@@ -1,8 +1,7 @@
-package ptr
+package ptrlib
 
 import "reflect"
 
-// Deprecated:
 func CopyPoint[T any](m T) T {
 	vt := reflect.TypeOf(m).Elem()
 	newV := reflect.New(vt)

@@ -76,3 +76,15 @@ func DecodeString(coding Encoding, str string) string {
 	dec, _ := encoder.DecodeString(str)
 	return string(dec)
 }
+func Base64URLEncoding(bs []byte) string {
+	return getEncoder(B64URL).EncodeToString(bs)
+}
+func Base64StdEncoding(bs []byte) string {
+	return getEncoder(B64Std).EncodeToString(bs)
+}
+func Base64URLDecoding(s string) ([]byte, error) {
+	return getEncoder(B64URL).DecodeString(s)
+}
+func Base64StdDecoding(s string) ([]byte, error) {
+	return getEncoder(B64Std).DecodeString(s)
+}
