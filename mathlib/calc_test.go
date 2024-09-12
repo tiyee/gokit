@@ -11,3 +11,24 @@ func TestAbs(t *testing.T) {
 
 	assert.Equal(as, int(1), mathlib.Abs(-1))
 }
+func TestCeil(t *testing.T) {
+	as := assert.NewAssert(t, "TestCeil")
+	total := 101
+	pageSize := 20
+	assert.LTE(as, 5, mathlib.Ceil[int](total, pageSize))
+}
+func TestFloor(t *testing.T) {
+	as := assert.NewAssert(t, "TestFloor")
+	total := 101
+	pageSize := 20
+	assert.GTE(as, 5, mathlib.Floor[int](total, pageSize))
+}
+func TestRound(t *testing.T) {
+	as := assert.NewAssert(t, "TestRound")
+	a := 4
+	b := 5
+	c := 3
+	assert.Equal(as, 1, mathlib.Round(a, c))
+	assert.LT(as, 1, mathlib.Round(b, c))
+
+}

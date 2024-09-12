@@ -83,7 +83,7 @@ func TestFailure(t *testing.T) {
 
 go 1.18
 
-replace github.com/tiyee/gokit => %s 
+replace github.com/tiyee/gokit => %s
 `, expModDir)
 	if err := os.WriteFile(filepath.Join(tmpdir, "go.mod"), []byte(modFile), 0666); err != nil {
 		t.Fatal(err)

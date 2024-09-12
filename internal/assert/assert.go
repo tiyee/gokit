@@ -65,7 +65,7 @@ func NotEqual[T comparable](a IAssert, expected, actual T) {
 	}
 }
 
-// Greater check if expected is greate than actual
+// GT Greater check if expected is greater than actual
 func GT[T cmp.Ordered](a IAssert, expected, actual T) {
 	if expected <= actual {
 		expectedInfo := fmt.Sprintf("> %v", expected)
@@ -73,7 +73,7 @@ func GT[T cmp.Ordered](a IAssert, expected, actual T) {
 	}
 }
 
-// GreaterOrEqual check if expected is greate than or equal with actual
+// GTE GreaterOrEqual check if expected is greater  than or equal with actual
 func GTE[T cmp.Ordered](a IAssert, expected, actual T) {
 	if expected < actual {
 		expectedInfo := fmt.Sprintf(">= %v", expected)

@@ -1,6 +1,12 @@
 package strlib
 
-import "strings"
+import (
+	"crypto/md5"
+	"fmt"
+	"strconv"
+	"strings"
+	"time"
+)
 
 // DefaultTrimChars are the characters which are stripped by Trim* functions in default.
 var DefaultTrimChars = string([]byte{
@@ -38,4 +44,9 @@ func Reverse(s string) string {
 		r[i], r[j] = r[j], r[i]
 	}
 	return string(r)
+}
+func NonceStr() string {
+	ns := time.Now().UnixNano()
+	bs := md5.Sum([]byte(strconv.FormatInt(ns, 10)))
+	return fmt.Sprintf("%x", bs)
 }
