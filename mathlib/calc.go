@@ -18,8 +18,8 @@ func Abs[T Numeric](n T) T {
 	return n
 }
 
-func Round[T Numeric](n T) T {
-	return T(math.Round(float64(n)))
+func Round[T Numeric](a, b T) T {
+	return T(math.Round(float64(a) / float64(b)))
 }
 func Ceil[T Numeric](a, b T) T {
 	if b == 0 {
