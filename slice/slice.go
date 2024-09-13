@@ -53,5 +53,21 @@ func StrictEqual[T cmp.Ordered](a, b []T) bool {
 	sort.Sort(Slice[T](a))
 	sort.Sort(Slice[T](b))
 	return equal[T](a, b)
+}
+func Merge[T any](a []T, b []T, cc ...[]T) []T {
+	if a == nil || b == nil {
+		return []T{}
+	}
+	n := len(a) + len(b)
+	for _, c := range cc {
+		n += len(c)
+	}
+	result := make([]T, 0, n)
+	result = append(result, a...)
+	result = append(result, b...)
+	for _, c := range cc {
+		result = append(result, c...)
+	}
+	return result
 
 }
