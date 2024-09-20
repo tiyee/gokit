@@ -17,6 +17,11 @@ type Client struct {
 }
 type Option func(*Client)
 
+func From(from string) Option {
+	return func(c *Client) {
+		c.from = from
+	}
+}
 func New(user, passwd, addr string, opts ...Option) *Client {
 	c := &Client{
 		authUser:       user,
