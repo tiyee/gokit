@@ -71,3 +71,19 @@ func Merge[T any](a []T, b []T, cc ...[]T) []T {
 	return result
 
 }
+
+// FirstOr get first elem or elseVal
+func FirstOr[T any](sl []T, elseVal T) T {
+	if len(sl) > 0 {
+		return sl[0]
+	}
+	return elseVal
+}
+
+// LastOr get last elem or elseVal
+func LastOr[T any](sl []T, elseVal T) T {
+	if len(sl) > 0 {
+		return sl[len(sl)-1]
+	}
+	return elseVal
+}
