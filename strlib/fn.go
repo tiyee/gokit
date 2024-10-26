@@ -33,6 +33,42 @@ func Trim(str string, characterMask ...string) string {
 	return strings.Trim(str, trimChars)
 }
 
+// Strip strips whitespace (or other characters) from the beginning and end of a string.
+// The optional parameter `characterMask` specifies the additional stripped characters.
+func Strip(str string, characterMask ...string) string {
+	trimChars := DefaultTrimChars
+
+	if len(characterMask) > 0 {
+		trimChars += characterMask[0]
+	}
+
+	return strings.Trim(str, trimChars)
+}
+
+// RStrip RTrim strips whitespace (or other characters) from the beginning and end of a string.
+// The optional parameter `characterMask` specifies the additional stripped characters.
+func RStrip(str string, characterMask ...string) string {
+	trimChars := DefaultTrimChars
+
+	if len(characterMask) > 0 {
+		trimChars += characterMask[0]
+	}
+
+	return strings.TrimRight(str, trimChars)
+}
+
+// LStrip  strips whitespace (or other characters) from the beginning and end of a string.
+// The optional parameter `characterMask` specifies the additional stripped characters.
+func LStrip(str string, characterMask ...string) string {
+	trimChars := DefaultTrimChars
+
+	if len(characterMask) > 0 {
+		trimChars += characterMask[0]
+	}
+
+	return strings.TrimLeft(str, trimChars)
+}
+
 // Reverse returns string whose char order is reversed to the given string.
 func Reverse(s string) string {
 	l := len(s)
