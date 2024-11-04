@@ -2,6 +2,8 @@ package cryptor
 
 import (
 	"bytes"
+	"crypto/rand"
+	"encoding/base64"
 	"github.com/tiyee/gokit/slice"
 )
 
@@ -40,4 +42,19 @@ func pkcs7UnPadding(src []byte) []byte {
 	length := len(src)
 	unPadding := int(src[length-1])
 	return src[:(length - unPadding)]
+}
+
+// GenerateRandomString generates a random string of the specified length
+func GenerateRandomString(length int) string {
+	return base64.URLEncoding.EncodeToString(GenerateRandomKey(length))
+}
+
+// GenerateRandomKey generates a random bytes of the specified length
+func GenerateRandomKey(length int) []byte {
+	b := make([]byte, length)
+	if _, err := rand.Read(b); err == nil {
+		return b
+	} else {
+		return b
+	}
 }
