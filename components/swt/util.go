@@ -1,6 +1,7 @@
 package swt
 
 import (
+	"crypto/rand"
 	"encoding/base64"
 	"strings"
 )
@@ -17,4 +18,19 @@ func DecodeSegment(seg string) ([]byte, error) {
 	}
 
 	return base64.URLEncoding.DecodeString(seg)
+}
+
+// GenerateRandomString generates a random string of the specified length
+func GenerateRandomString(length int) string {
+	return base64.URLEncoding.EncodeToString(GenerateRandomKey(length))
+}
+
+// GenerateRandomKey generates a random bytes of the specified length
+func GenerateRandomKey(length int) []byte {
+	b := make([]byte, length)
+	if _, err := rand.Read(b); err == nil {
+		return b
+	} else {
+		return b
+	}
 }
