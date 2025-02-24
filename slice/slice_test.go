@@ -50,3 +50,13 @@ func TestLastOr(t *testing.T) {
 	assert.Equal(as, 9, slice.LastOr(b, 9))
 
 }
+
+func TestReverse(t *testing.T) {
+	as := assert.NewAssert(t, "TestLastOr")
+	a := []int{1, 2, 3}
+	b := []int{3, 2, 1}
+	slice.Reverse(b)
+	for i := 0; i < 3; i++ {
+		assert.Equal(as, b[i], a[i])
+	}
+}
