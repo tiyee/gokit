@@ -87,3 +87,12 @@ func LastOr[T any](sl []T, elseVal T) T {
 	}
 	return elseVal
 }
+
+
+// Reverse reverse slice
+func Reverse[T any](s []T) {
+	n := len(s)
+	for i := 0; i < n; i++ {
+		s[i] = s[n-1-i]
+	}
+}
