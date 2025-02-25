@@ -91,13 +91,11 @@ func (s *swt) parse(bs []byte) error {
 	if err = binary.Read(reader, binary.BigEndian, &s.Length); err != nil {
 		return err
 	}
-	fmt.Println("d payload  content length =", s.Length)
 	s.Content = make([]byte, s.Length)
 
 	if err = binary.Read(reader, binary.BigEndian, &s.Content); err != nil {
 		return err
 	}
-	fmt.Println("d payload content", s.Content)
 	if err = binary.Read(reader, binary.BigEndian, &s.SignatureLength); err != nil {
 		return err
 	}
@@ -132,7 +130,6 @@ func (s *swt) Valid() bool {
 	hasher := hmac.New(sha256.New, s.keyBytes)
 	hasher.Write(bs)
 	signature := hasher.Sum(nil)
-	fmt.Println(signature, s.Signature)
 	return string(signature) == string(s.Signature)
 }
 func (s *swt) String() string {
